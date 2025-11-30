@@ -1,0 +1,160 @@
+\documentclass[tikz,border=5pt]{standalone}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{positioning, arrows.meta, calc, fit, backgrounds}
+
+\begin{document}
+
+% Professional color palette (softer tones)
+\definecolor{lightblue}{RGB}{230,240,255}
+\definecolor{lightgreen}{RGB}{232,255,232}
+\definecolor{lightorange}{RGB}{255,240,220}
+\definecolor{lightpurple}{RGB}{245,230,255}
+\definecolor{lightred}{RGB}{255,230,230}
+
+% Optimized node styles
+\tikzset{
+    datanode/.style = {rectangle, draw=black!50, fill=lightblue, rounded corners=2pt, 
+                       text width=2.8cm, minimum height=0.8cm, align=center, 
+                       font=\small\sffamily},
+    protonode/.style = {rectangle, draw=black!50, fill=lightgreen, rounded corners=2pt, 
+                        text width=2.8cm, minimum height=0.8cm, align=center, 
+                        font=\small\sffamily},
+    metanode/.style = {rectangle, draw=black!50, fill=lightorange, rounded corners=2pt, 
+                       text width=2.9cm, minimum height=0.8cm, align=center, 
+                       font=\small\sffamily},
+    adaptnode/.style = {rectangle, draw=black!50, fill=lightpurple, rounded corners=2pt, 
+                        text width=3cm, minimum height=0.8cm, align=center, 
+                        font=\small\sffamily},
+    infobox/.style = {rectangle, draw=black!30, fill=lightred, rounded corners=3pt, 
+                      text width=5.5cm, align=left, inner sep=8pt, font=\footnotesize\sffamily},
+    arrow/.style = {-{Stealth[length=3pt]}, semithick, black!70},
+    dashedarrow/.style = {arrow, dashed, black!60},
+    phase/.style = {rectangle, draw=gray!40, rounded corners=3pt, inner sep=4pt, 
+                    fill=white, font=\footnotesize\bfseries\sffamily, text=black!70}
+}
+
+\begin{tikzpicture}[node distance=0.7cm]
+
+% Title
+\node[font=\large\bfseries\sffamily, align=center] at (0,0) {Proto-KT: Detailed Training Flow};
+
+% Phase indicators
+\begin{scope}[node distance=4cm]
+\node[phase] (phase1) at (-4,-2.2) {1. Task Sampling};
+\node[phase, below=of phase1] (phase2) {2. Initialization};
+\node[phase, below=of phase2] (phase3) {3. Adaptation};
+\node[phase, below=of phase3] (phase4) {4. Meta Update};
+\end{scope}
+
+% Main flow - aligned with phases
+\node[datanode] (task) at (0,-2.2) {Sample Task $\mathcal{T}_i$};
+\node[datanode, below left=0.7cm and 1.3cm of task] (support) {Support Set $\mathcal{S}_i$};
+\node[datanode, below right=0.7cm and 1.3cm of task] (query) {Query Set $\mathcal{Q}_i$};
+\node[protonode, below=of support] (context) {Context Encoder \\ $\mathbf{c} = f_\phi(\mathcal{S}_i)$};
+\node[protonode, below=of context] (attention) {Prototype Attention \\ $\boldsymbol{\alpha} = \text{softmax}(\mathbf{c}^\top \mathbf{P})$};
+\node[protonode, below=of attention] (paramgen) {Parameter Generation \\ $\theta_{\text{init}} = \sum \alpha_k \boldsymbol{\phi}_k$};
+\node[adaptnode, below=of paramgen] (innerloop) {Inner Loop Adaptation \\ $\theta' \leftarrow \text{MAML}(\theta_{\text{init}}, \mathcal{S}_i)$};
+\node[metanode, below=of innerloop] (queryeval) {Query Evaluation \\ $\mathcal{L}_{\mathcal{Q}_i}(\theta')$};
+\node[metanode, below=of queryeval] (metaupdate) {Meta Update \\ $\mathbf{P}, \mathbf{\Phi} \leftarrow \mathbf{P}, \mathbf{\Phi} - \beta \nabla \mathcal{L}$};
+
+% Prototype memory
+\node[protonode, left=2.5cm of attention] (protomem) {Prototype Memory \\ $\mathbf{P} \in \mathbb{R}^{K \times d}$ \\ $\mathbf{\Phi} \in \mathbb{R}^{K \times |\theta|}$};
+
+% Information boxes - better aligned
+\node[infobox] (equations) at (4.8,-4.5) {
+    \textbf{Key Equations:}
+    \begin{align*}
+    \mathbf{c} &= \tfrac{1}{|\mathcal{S}|}\sum f_\phi(x,y) \\
+    \alpha_k &= \tfrac{\exp(\mathbf{c}^\top \mathbf{p}_k)}{\sum_j \exp(\mathbf{c}^\top \mathbf{p}_j)} \\
+    \theta_{\text{init}} &= \sum_{k=1}^K \alpha_k \boldsymbol{\phi}_k \\
+    \Delta\mathbf{P}, \Delta\mathbf{\Phi} &= -\beta \nabla \mathcal{L}_{\mathcal{Q}_i}
+    \end{align*}
+};
+
+\node[infobox, below=0.5cm of equations] (hyperparams) {
+    \textbf{Hyperparameters:}
+    \vspace{-3mm}
+    \begin{itemize}
+        \item $K$: Prototypes (10)
+        \item $d$: Embedding dim (128)
+        \item $T$: Adaptation steps (5)
+        \item $\alpha$: Inner LR (0.01)
+        \item $\beta$: Meta LR (0.001)
+        \item $|\mathcal{S}|$: Support size (20)
+        \item $|\mathcal{Q}|$: Query size (10)
+    \end{itemize}
+};
+
+% Arrow connections (cleaner paths)
+\draw[arrow] (task) -| (support);
+\draw[arrow] (task) -| (query);
+\draw[arrow] (support) -- (context);
+\draw[arrow] (context) -- (attention);
+\draw[arrow] (attention) -- (paramgen);
+\draw[arrow] (paramgen) -- (innerloop);
+\draw[arrow] (support) -- ++(-1.8,0) |- (innerloop.west);
+\draw[arrow] (query) -- ++(1.8,0) |- (queryeval.east);
+\draw[arrow] (innerloop) -- (queryeval);
+\draw[arrow] (queryeval) -- (metaupdate);
+\draw[arrow] (protomem) -- (attention);
+\draw[dashedarrow] (metaupdate) to[out=180,in=-90] (protomem.south);
+
+% Meta-gradient flow label
+\node[font=\scriptsize, rotate=90] at ($(protomem.south)!0.5!(metaupdate.west)$) 
+    {Meta-gradient Flow};
+
+% Phase alignment indicators
+\draw[gray!40, dashed, shorten >=-1.5cm, shorten <=-1.5cm] 
+    (phase1.east) -- ++(10.5,0) node[right] {};
+\draw[gray!40, dashed, shorten >=-1.5cm, shorten <=-1.5cm] 
+    (phase2.east) -- ++(10.10,0);
+\draw[gray!40, dashed, shorten >=-1.5cm, shorten <=-1.5cm] 
+    (phase3.east) -- ++(10.5,0);
+\draw[gray!40, dashed, shorten >=-1.5cm, shorten <=-1.5cm] 
+    (phase4.east) -- ++(10.5,0);
+
+% Loop indicators
+\node[font=\footnotesize\bfseries\sffamily, text=purple!70] 
+    at ($(innerloop)+(0,0.8)$) {Inner Loop (Task Adaptation)};
+\node[font=\footnotesize\bfseries\sffamily, text=orange!70] 
+    at ($(metaupdate)+(0,-0.8)$) {Outer Loop (Meta-Learning)};
+
+% Training loop indicator
+\draw[arrow, orange!80, thick, rounded corners=5pt] 
+    (metaupdate.south) -- ++(0,-0.7) -| (task.north)
+    node[pos=0.25, right, font=\scriptsize\bfseries\sffamily, black] 
+    {Next Episode};
+    
+% Highlight the Proto-KT innovation
+\node[draw=red!70, thick, dashed, rounded corners=3pt, 
+      inner sep=5pt, fit=(protomem)(attention)(paramgen)] (innovation) {};
+\node[fill=white, inner sep=2pt, font=\tiny\bfseries\sffamily, text=red!70] 
+      at (innovation.south) {Core Innovation: Personalized Initialization};
+
+% Step numbers
+\foreach \node/\step in {task/1, support/2a, query/2b, context/3, 
+                         attention/4, paramgen/5, innerloop/6, queryeval/7, metaupdate/8}
+    \node[circle, draw=black!30, fill=white, font=\tiny\bfseries, 
+          minimum size=0.45cm, inner sep=0pt] 
+          at ($(\node.north west)+(0.25,-0.25)$) {\step};
+
+% Legend
+\node[draw=black!20, rounded corners, fill=white, text width=3.5cm, 
+      font=\tiny\sffamily, align=left, inner sep=6pt] at (7.5, -10.5) {
+    \textbf{Legend:} 
+    \begin{itemize}
+        \item \tikz[baseline=-0.5ex]\draw[arrow] (0,0) -- (0.8,0); Data flow
+        \item \tikz[baseline=-0.5ex]\draw[dashedarrow] (0,0) -- (0.8,0); Gradient flow
+        \item {\color{purple!70}Inner}: Task adaptation
+        \item {\color{orange!70}Outer}: Meta-learning
+    \end{itemize}
+};
+
+% Loss annotations
+\node[font=\tiny, text=purple!70, align=center] at ($(innerloop.east) + (0.8,0)$) 
+     {Loss: $\mathcal{L}_{\mathcal{S}}$};
+\node[font=\tiny, text=orange!70, align=center] at ($(queryeval.east) + (0.8,0)$) 
+     {Loss: $\mathcal{L}_{\mathcal{Q}}$};
+
+\end{tikzpicture}
+\end{document}

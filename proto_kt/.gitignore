@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Data (large files - use Git LFS if needed)
+data/raw/*.csv
+data/processed/*.pkl
+
+# Checkpoints (large files - use Git LFS if needed)
+checkpoints/
+*.pt
+*.pth
+
+# Results
+results/
+*.pkl
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+cleanup.py
+
+# Keep these exceptions
+!requirements.txt
+!README.md
+!LICENSE
+!CITATION.cff
+

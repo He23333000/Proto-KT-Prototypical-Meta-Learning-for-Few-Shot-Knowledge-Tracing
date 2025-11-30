@@ -1,0 +1,55 @@
+# Proto-KT Configuration
+
+# Data Configuration
+data:
+  datasets:
+    - assistments2009
+    - ednet  # For domain diversity
+  meta_train_ratio: 0.7
+  meta_val_ratio: 0.15
+  meta_test_ratio: 0.15
+  support_size: 5
+  min_sequence_length: 51  # Need at least 51 interactions for evaluation
+  max_sequence_length: 200
+  verify_no_leakage: true  # Verify disjoint questions/skills
+
+# Model Configuration
+model:
+  sakt:
+    embedding_dim: 128
+    num_heads: 8
+    num_layers: 2
+    dropout: 0.1
+    max_seq_len: 200
+  
+  proto_kt:
+    num_prototypes: 8
+    context_dim: 128
+    use_parameter_alignment: true  # Apply normalization before mixing
+    
+# Training Configuration
+training:
+  meta_batch_size: 16
+  inner_lr: 0.001
+  meta_lr: 0.0001
+  inner_steps: 1
+  num_epochs: 10
+  early_stopping_patience: 10
+  use_first_order: false  # Set to true if memory issues
+  gradient_checkpointing: true
+  mixed_precision: false  # Enable if needed for GPU memory
+  
+# Evaluation Configuration
+evaluation:
+  metrics:
+    - auc
+    - accuracy
+    - bce_loss
+    - ece  # Expected Calibration Error
+  interaction_windows:
+    - 10
+    - 20
+    - 50
+  bootstrap_samples: 1000  # For confidence intervals
+  significance_alpha: 0.05
+
