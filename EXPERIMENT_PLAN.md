@@ -166,58 +166,6 @@ Prototype 3 & ... & ... & Strugglers \\
 
 ---
 
-## 🔬 Top-Tier Experimental Rigor
-
-### Data Quality:
-✅ Real-world dataset (ASSISTments2009, 525K interactions)  
-✅ Disjoint student splits (no data leakage)  
-✅ Chronological evaluation (cold-start simulation)  
-✅ Multiple interaction windows (comprehensive analysis)
-
-### Statistical Rigor:
-✅ Bootstrap confidence intervals (non-parametric)  
-✅ Paired significance testing (accounts for correlation)  
-✅ Multiple comparison correction (Bonferroni)  
-✅ Effect size reporting (practical significance)
-
-### Baselines:
-✅ Strong pre-trained baseline (SAKT)  
-✅ Direct meta-learning comparison (MAML-SAKT)  
-✅ Sanity check (Proto-KT k=1 ≈ MAML)
-
-### Reproducibility:
-✅ Fixed random seeds (seed=42)  
-✅ Complete hyperparameter specification  
-✅ Code release commitment  
-✅ Detailed implementation in paper
-
-### Interpretability:
-✅ Visualization (UMAP projection)  
-✅ Quantitative characterization (statistics)  
-✅ Semantic interpretation (educational meaning)  
-✅ Prototype assignment analysis
-
----
-
-## 📅 Execution Schedule
-
-### Current Run (5% data, validation):
-- **Duration**: 3-5 hours
-- **Purpose**: Validate pipeline, catch bugs
-- **Output**: Preliminary results showing trends
-
-### Next Run (10% data, faster iteration):
-- **Duration**: 1-2 days
-- **Purpose**: Higher-quality results for paper draft
-- **Decision**: Determine if sufficient for submission
-
-### Final Run (100% data, camera-ready):
-- **Duration**: 5-7 days
-- **Purpose**: Final NeurIPS-quality results
-- **When**: If time permits and 10% results promising
-
----
-
 ## 🎯 Success Criteria
 
 ### Minimum (for submission):
@@ -285,41 +233,7 @@ Once experiments complete, update main.tex:
 - Note any unexpected findings
 - Discuss computational requirements
 
----
-
-## 🏆 Top-Tier Quality Checklist
-
-### Experimental Design:
-- [x] Clear research questions
-- [x] Hypothesis-driven experiments
-- [x] Appropriate baselines
-- [x] Ablation studies
-- [x] Statistical rigor
-
-### Evaluation:
-- [x] Multiple metrics
-- [x] Multiple evaluation windows
-- [x] Held-out test set
-- [x] Real-world data
-- [x] Reproducible protocol
-
-### Presentation:
-- [x] Professional visualizations
-- [x] Clear tables (booktabs)
-- [x] Interpretability analysis
-- [x] Honest limitations
-- [x] Practical significance
-
-### Reproducibility:
-- [x] Complete code
-- [x] Fixed seeds
-- [x] Hyperparameter specs
-- [x] Hardware specs
-- [x] Dataset details
-
----
-
-## 🎓 NeurIPS Reviewer Expectations
+##  Reviewer Expectations
 
 **What reviewers will look for**:
 1. ✅ Novel contribution (multi-prototype initialization)
