@@ -5,7 +5,7 @@
 
 ---
 
-## 🎯 Research Questions (from main.tex)
+## 🎯 Research Questions
 
 ### Q1: Main Performance
 **Does Proto-KT significantly outperform single-initialization MAML?**
@@ -90,7 +90,7 @@ For Proto-KT (k=8):
 
 ## 📁 Expected Outputs
 
-### Tables (LaTeX format, ready for main.tex):
+### Tables:
 
 **Table 1: Main Results Comparison**
 ```latex
