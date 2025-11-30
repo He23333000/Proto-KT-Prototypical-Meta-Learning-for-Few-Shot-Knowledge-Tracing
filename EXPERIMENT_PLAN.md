@@ -1,4 +1,4 @@
-# NeurIPS Top-Tier Experimental Plan for Proto-KT
+# Experimental Plan for Proto-KT
 
 **Status**: Pipeline Running  
 
