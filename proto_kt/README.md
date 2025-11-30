@@ -116,7 +116,7 @@ Proto-KT demonstrates superior performance in the few-shot regime (1-10 interact
 
 The following visualization demonstrates the performance dynamics across different interaction windows:
 
-![Learning Curves](proto_kt/results/lowdata_5pct/main/learning_curves.png)
+![Learning Curves](results/lowdata_5pct/main/learning_curves.png)
 
 The learning curves illustrate how each model's performance evolves as more student interactions are observed. Proto-KT (blue) shows strong early performance in the critical few-shot regime, while SAKT (orange) demonstrates superior long-term performance with more data. MAML-SAKT (purple) falls between the two approaches.
 
