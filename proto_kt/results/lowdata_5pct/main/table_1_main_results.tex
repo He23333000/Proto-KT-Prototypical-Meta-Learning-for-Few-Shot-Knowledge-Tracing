@@ -1,0 +1,15 @@
+\begin{table}[t]
+\centering
+\caption{Few-shot performance comparison across methods and interaction windows.}
+\label{tab:main_results}
+\begin{tabular}{l|cc|cc|cc|cc}
+\toprule
+Method & \multicolumn{2}{c|}{1-10 Int.} & \multicolumn{2}{c|}{1-20 Int.} & \multicolumn{2}{c|}{1-50 Int.} & \multicolumn{2}{c}{Overall} \\
+ & AUC & Acc & AUC & Acc & AUC & Acc & AUC & Acc \\
+\midrule
+Proto-KT (k=8) & 0.7095 & 0.6744 & 0.6881 & 0.6544 & 0.6671 & 0.6409 & 0.6671 & 0.6409 \\
+MAML-SAKT & 0.6872 & 0.6463 & 0.6618 & 0.6216 & 0.6438 & 0.6141 & 0.6438 & 0.6141 \\
+SAKT Baseline & 0.7275 & 0.6652 & 0.7159 & 0.6681 & 0.7133 & 0.6566 & 0.7139 & 0.6570 \\
+\bottomrule
+\end{tabular}
+\end{table}
