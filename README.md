@@ -108,9 +108,7 @@ meta-irt/
 | Proto-KT (k=8) | 0.6671 | 0.6409 | 0.6804 | 0.1259 |
 | MAML-SAKT | 0.6438 | 0.6141 | 0.9737 | 0.2576 |
 
-### Key Finding
 
-Proto-KT demonstrates superior performance in the few-shot regime (1-10 interactions), achieving its design objective of rapid adaptation to new students with minimal interaction history. This improvement comes at the cost of reduced overall performance on longer sequences, illustrating the fundamental adaptability-generalization trade-off in meta-learning. These results suggest that Proto-KT is particularly well-suited for cold-start scenarios in educational systems, while traditional approaches like SAKT remain preferable for students with extensive interaction histories.
 
 ### Learning Curves
 
@@ -119,6 +117,12 @@ The following visualization demonstrates the performance dynamics across differe
 ![Learning Curves](proto_kt/results/lowdata_5pct/main/learning_curves.png)
 
 The learning curves illustrate how each model's performance evolves as more student interactions are observed. Proto-KT (blue) shows strong early performance in the critical few-shot regime, while SAKT (orange) demonstrates superior long-term performance with more data. MAML-SAKT (purple) falls between the two approaches.
+
+
+### Key Finding
+
+Proto-KT demonstrates superior performance in the few-shot regime (1-10 interactions), achieving its design objective of rapid adaptation to new students with minimal interaction history. This improvement comes at the cost of reduced overall performance on longer sequences, illustrating the fundamental adaptability-generalization trade-off in meta-learning. These results suggest that Proto-KT is particularly well-suited for cold-start scenarios in educational systems, while traditional approaches like SAKT remain preferable for students with extensive interaction histories.
+
 
 ## Installation
 
