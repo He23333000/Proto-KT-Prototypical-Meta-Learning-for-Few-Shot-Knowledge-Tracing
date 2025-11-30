@@ -1,7 +1,7 @@
 # NeurIPS Top-Tier Experimental Plan for Proto-KT
 
-**Status**: ✅ Pipeline Running  
-**Target**: Camera-Ready NeurIPS Submission
+**Status**: Pipeline Running  
+
 
 ---
 
